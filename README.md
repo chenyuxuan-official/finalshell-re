@@ -130,19 +130,55 @@
 
 ## 5. 快速开始
 
-### 5.1 算号
+### 5.0 一键激活（推荐入口）
+
+`tools/activate.py` 把「算激活码」和「屏蔽云端复核」合成一条命令。
+
+```bash
+# ① 只算号
+python tools/activate.py "admin@0123456789abcdef" -v 4.6.5
+#   激活码 : a68b68ba533b731c
+
+# ② 算号 + 自动改 hosts（需要管理员 / root）
+python tools/activate.py "admin@0123456789abcdef" -v 4.6.5 --fix-hosts
+
+# ③ 只改 hosts，不算号
+python tools/activate.py --fix-hosts
+
+# ④ 想反悔 → 从备份恢复
+python tools/activate.py --revert-hosts
+
+# ⑤ 先看会写什么，不动系统
+python tools/activate.py --fix-hosts --dry-run
+```
+
+**操作步骤**
+
+1. 打开 FinalShell → 登录窗口 → 点「离线激活...」，复制上面显示的**机器码**
+   （形如 `用户名@16位十六进制`）
+2. 用你在用的版本号执行上面的命令，拿到 16 位激活码
+3. 粘回「激活码」输入框 → 点「确定」
+4. 执行 `--fix-hosts`，然后**重启 FinalShell**
+
+> 第 4 步不能省。理由见 [docs/persistence-findings.md](docs/persistence-findings.md)：
+> 客户端会向 `yunce.hostbuf.com` 心跳复核，不屏蔽它，激活状态联网后会被服务端覆盖。
+
+改 hosts 是**全局**的，会影响本机对这批域名的所有访问；备份写在
+`hosts.finalshell-re.bak`，`--revert-hosts` 可一键还原。
+
+### 5.1 只算号（不碰系统）
 
 ```bash
 # 指定版本，自动选盐分支（4.6.5 → 分支 3 MODERN-C）
 python tools/finalshell_keygen.py "0123456789abcdef" -v 4.6.5
-#   → a7f5bad80af79170
+#   → 4d6602d9625a0fe1
 
-# 4.6.5 到底吃哪一支还没闭环，四支全列出来逐个试
+# 不确定版本就四支全列出来逐个试
 python tools/finalshell_keygen.py "0123456789abcdef" --all
-#   分支 0  LEGACY   2356 / 13593            → da3c94aa85c96458
-#   分支 1  MODERN-A ""   / FF3Go(*Xvbb5s2   → 929ae2afb3b2d11a   ← 社区长期使用的一支
-#   分支 2  MODERN-B ""   / b(xxkHn%z);x     → decea7bfe520bdbf
-#   分支 3  MODERN-C ""   / Scfg*ZkvJZc,s,Y  → a7f5bad80af79170
+#   分支 0  LEGACY   2356 / 13593            → e9ecf3dd4ec7d3c7
+#   分支 1  MODERN-A ""   / FF3Go(*Xvbb5s2   → 929ae2afb3b2d11a   ← 3.9.6+ 长期通用
+#   分支 2  MODERN-B ""   / b(xxkHn%z);x     → c42fbe8938b44f03   ← 4.5.x
+#   分支 3  MODERN-C ""   / Scfg*ZkvJZc,s,Y  → 4d6602d9625a0fe1   ← 4.6.x（已实测闭环）
 
 # 纯算法自检（标准测试向量）
 python tools/keccak.py
@@ -154,16 +190,16 @@ python tools/keccak.py
 
 ```bash
 # 任意静态方法改成返回指定常量（这里把 FlatLaf.isLafDark() 钉成 true）
-python jar_patcher.py --jar finalshell.orig.jar \
+python tools/jar_patcher.py --jar finalshell.orig.jar \
     --class com/formdev/flatlaf/FlatLaf --method "isLafDark:()Z" \
     --value true --out out/finalshell.patched.jar
 
 # 工具自测：扫全量 17,373 个 class，选中 449 个可补丁的 static ()Z 方法 + JVM 校验
-python selftest.py
+python tools/selftest.py
 ```
 
 输出会打印原/新字节码 hex、`max_stack` 与 Code 属性长度变化；jar 内只有命中的那个 `.class` 被替换，
-其余条目字节级不变。`-Xverify:all` 已实测通过（详见 [REPORT-jar-patcher.md](docs/06-jar-patching.md)）。
+其余条目字节级不变。`-Xverify:all` 已实测通过（详见 [docs/06-jar-patching.md](docs/06-jar-patching.md)）。
 
 ### 5.3 字符串还原（离线，不起 JVM）
 

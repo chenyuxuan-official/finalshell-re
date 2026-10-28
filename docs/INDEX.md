@@ -8,6 +8,7 @@
 | 文档 | 一句话摘要 | 状态 |
 | :--- | :--- | :--: |
 | [01-obfuscation.md](01-obfuscation.md) | 混淆总览：ZKM 四层保护（名字/字符串/反射常量/配置授权）与四个专题章节的对应关系。 | 骨架 |
+| [../tools/activate.py](../tools/activate.py) | **一键激活**：算号 + 屏蔽云端校验，一条命令搞定。 | 入口工具 |
 | [activation-algorithm.md](activation-algorithm.md) | **核心结论**：离线激活码 = `Keccak384(前缀+机器码+后缀).hex()[12:28]`，4 个算法分支与版本判定。 | 完整 |
 | [02-string-decrypt.md](02-string-decrypt.md) | `Lk` 的字符串解密结构：主解密器 `private static String b(int,int)` 的完整算法与最小复现步骤。 | 完整 |
 | [03-zelix-key.md](03-zelix-key.md) | ZKM key 解析报告：`com.c` 双表结构、key 的位段布局、`aW` 的 21 个 key 验证表与踩坑点。 | 完整 |
