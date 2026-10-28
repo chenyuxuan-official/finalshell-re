@@ -1,0 +1,183 @@
+# ============================================================================
+#  FinalShell 4.6.5 逆向仓库 · .gitignore
+#
+#  策略：**白名单**。
+#        第 1 段先忽略一切，第 2 段放行目录，第 3 段逐项放行要入库的文件，
+#        第 4 段再把白名单里混进来的脏东西排掉。
+#
+#  入库标准只有一条：可读的结论（*.md） + 可复现的代码（*.py/*.java/*.ps1）。
+#  凡是能由脚本重新生成的转储、以及原程序本体与内存快照，一律不进仓库。
+# ============================================================================
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# 1. 先忽略一切（* 会递归匹配所有文件与目录）
+# ────────────────────────────────────────────────────────────────────────────
+*
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# 2. 放行目录结构（git 不会进入被忽略的目录，所以必须先放行）
+#    `!*/` 只放行「目录」本身，里面的文件仍然被第 1 段忽略
+# ────────────────────────────────────────────────────────────────────────────
+!*/
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# 3. 逐项放行要入库的内容
+# ────────────────────────────────────────────────────────────────────────────
+
+# --- 根目录说明文件 ---
+!/.gitignore
+!/README.md
+!/LICENSE
+!/LICENSE.txt
+!/NOTICE
+!/CHANGELOG.md
+
+# --- 文档（全部）---
+!/docs/**
+!/docs/**/*.md
+!/docs/**/*.png
+!/docs/**/*.svg
+
+# --- 工具源码（只要源码与说明）---
+!/tools/**/*.py
+!/tools/**/*.java
+!/tools/**/*.ps1
+!/tools/**/*.sh
+!/tools/**/*.md
+!/tools/**/*.txt
+
+# --- 结构化小数据 ---
+!/data/**/*.json
+!/data/**/*.csv
+!/data/**/*.md
+
+# --- 逆向分析报告与复现脚本 ---
+!/analysis/**/*.md
+!/analysis/**/*.py
+!/analysis/**/*.java
+!/analysis/**/*.ps1
+!/analysis/**/*.csv
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# 4. 兜底黑名单：把上面白名单可能放进来的脏东西再排掉
+#    （顺序在放行之后，所以这里的规则优先生效）
+# ────────────────────────────────────────────────────────────────────────────
+
+# --- 目标程序本体、样本、压缩包 ---
+*.jar
+*.zip
+*.7z
+*.rar
+*.exe
+*.dll
+*.so
+*.dylib
+*.ttf
+*.otf
+/finalshell.orig.jar
+/fs.zip
+/bcprov.jar
+
+# --- 内存 / 崩溃转储 ---
+*.hprof
+*.dmp
+core.*
+
+# --- 大规模转储与反汇编导出（可用 tools/ 里的脚本重新生成）---
+*.disasm.txt
+*_disasm.txt
+dis_*.txt
+*_code.txt
+*_full.txt
+*_members.txt
+strings_full.txt
+strings_*.txt
+decrypted_*.txt
+decrypted_all*.txt
+callsites*.tsv
+cp_index.json
+com_c_*.txt
+cands*
+heap_cjk.txt
+jar_list.txt
+entries.txt
+method_survey.txt
+tokmap.txt
+toklist.txt
+objdump_*.txt
+xrefs.txt
+xrefs.txt.json
+rawjson.json
+rows2.json
+run1.json
+run2.json
+w_*.txt
+L_*.txt
+dump_sample.txt
+quick*_result.txt
+scan_result.txt
+cjk_sample.txt
+b_int_int.txt
+fs_out.log
+
+# --- 运行日志 / 抓栈 ---
+*.log
+*.log.err
+*.err
+jstack_dump.txt
+hit_stack.txt
+launch_err*.log
+bind_conflict.log
+jdimon*.log
+run_out.log
+run_err.log
+fs_err.log
+msg.log
+
+# --- 编译产物与缓存 ---
+*.class
+*.pyc
+*.pyo
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+build/
+dist/
+target/
+*.before_jdwp
+agent.mf
+
+# --- 解包 / 运行 / 临时目录（体积巨大且可重建）---
+/jar_x/
+/extract/
+/extracted_classes/
+/run/
+/out/
+/temp/
+/archive/
+/blur_image_cache/
+/com/
+/agentcls/
+/_mf/
+/_keytool/
+/_stacktest/
+/_tmp/
+
+# --- 编辑器 / 操作系统垃圾 ---
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- 抓包 / 抓流 ---
+*.pcap
+*.pcapng
+*.har

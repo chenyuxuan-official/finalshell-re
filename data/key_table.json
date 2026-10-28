@@ -1,0 +1,299 @@
+{
+ "270389152141252877": {
+  "key": 270389152141252877,
+  "error": "full 模式超时",
+  "keyHex": "03C09D80547F990D",
+  "index": 3842,
+  "selector": 39,
+  "raw": "c5a48mv4ly\bi\bc5a48mv4ly\b",
+  "declaring": "yT",
+  "member": "i",
+  "wantTypes": [
+   "yT"
+  ],
+  "candidates": [
+   "FIELD|av",
+   "METHOD|0|()yT"
+  ],
+  "kind": "METHOD",
+  "signature": "yT.i() -> yT",
+  "mode": "safe(no-init)"
+ },
+ "306266403902896148": {
+  "key": 306266403902896148,
+  "error": "full 模式超时",
+  "keyHex": "044013ABF344B814",
+  "index": 4352,
+  "selector": 4,
+  "raw": "c5a48mv4ly\bh\bghko72wx8d\b",
+  "declaring": "yT",
+  "member": "h",
+  "wantTypes": [
+   "u6"
+  ],
+  "candidates": [
+   "FIELD|dD",
+   "METHOD|0|()u6"
+  ],
+  "kind": "METHOD",
+  "signature": "yT.h() -> u6",
+  "mode": "safe(no-init)"
+ },
+ "459969040127248336": {
+  "key": 459969040127248336,
+  "error": "full 模式超时",
+  "keyHex": "06622367AC7647D0",
+  "index": 6536,
+  "selector": 8,
+  "raw": "c5a48mv4ly\bB\bac14ac4o2kt\b2l2w2c7dqn\b",
+  "declaring": "yT",
+  "member": "B",
+  "wantTypes": [
+   "Fb",
+   "java/lang/Void"
+  ],
+  "candidates": [
+   "FIELD|Ka",
+   "METHOD|1|(Fb)void"
+  ],
+  "kind": "METHOD",
+  "signature": "yT.B(Fb) -> void",
+  "mode": "safe(no-init)"
+ },
+ "184823010927613107": {
+  "key": 184823010927613107,
+  "keyHex": "02909F8C98A894B3",
+  "index": 2626,
+  "selector": 39,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "y",
+  "descriptor": "javax.swing.JTextField",
+  "signature": "aW.y : javax.swing.JTextField",
+  "mode": "full"
+ },
+ "191807067392725406": {
+  "key": 191807067392725406,
+  "keyHex": "02A96F82F55A519E",
+  "index": 2725,
+  "selector": 27,
+  "kind": "METHOD",
+  "declaring": "u6",
+  "member": "D",
+  "descriptor": "()java.lang.String",
+  "signature": "u6.D() -> java.lang.String",
+  "mode": "full"
+ },
+ "195109804691767143": {
+  "key": 195109804691767143,
+  "keyHex": "02B52B5568D93F67",
+  "index": 2772,
+  "selector": 10,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "l",
+  "descriptor": "javax.swing.JPasswordField",
+  "signature": "aW.l : javax.swing.JPasswordField",
+  "mode": "full"
+ },
+ "204000105621842013": {
+  "key": 204000105621842013,
+  "keyHex": "02D4C103E5BB685D",
+  "index": 2899,
+  "selector": 48,
+  "kind": "METHOD",
+  "declaring": "u6",
+  "member": "X",
+  "descriptor": "()java.lang.String",
+  "signature": "u6.X() -> java.lang.String",
+  "mode": "full"
+ },
+ "220378371334645424": {
+  "key": 220378371334645424,
+  "keyHex": "030EF0F60B94A6B0",
+  "index": 3131,
+  "selector": 60,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "k",
+  "descriptor": "javax.swing.JTextField",
+  "signature": "aW.k : javax.swing.JTextField",
+  "mode": "full"
+ },
+ "256291570319778198": {
+  "key": 256291570319778198,
+  "keyHex": "038E87D347D66196",
+  "index": 3642,
+  "selector": 33,
+  "kind": "METHOD",
+  "declaring": "u6",
+  "member": "L",
+  "descriptor": "()java.lang.String",
+  "signature": "u6.L() -> java.lang.String",
+  "mode": "full"
+ },
+ "281854482764394826": {
+  "key": 281854482764394826,
+  "keyHex": "03E95928A385F14A",
+  "index": 4005,
+  "selector": 22,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "Z",
+  "descriptor": "javax.swing.JLabel",
+  "signature": "aW.Z : javax.swing.JLabel",
+  "mode": "full"
+ },
+ "296586054365034220": {
+  "key": 296586054365034220,
+  "keyHex": "041DAF71EFC336EC",
+  "index": 4214,
+  "selector": 43,
+  "kind": "METHOD",
+  "declaring": "Lk",
+  "member": "M",
+  "descriptor": "()javax.swing.JTextArea",
+  "signature": "Lk.M() -> javax.swing.JTextArea",
+  "mode": "full"
+ },
+ "322267315291882359": {
+  "key": 322267315291882359,
+  "keyHex": "0478EC6A72B10377",
+  "index": 4579,
+  "selector": 59,
+  "kind": "METHOD",
+  "declaring": "YJ",
+  "member": "o",
+  "descriptor": "(javax.swing.text.JTextComponent)boolean",
+  "signature": "YJ.o(javax.swing.text.JTextComponent) -> boolean",
+  "mode": "full"
+ },
+ "370149877875067536": {
+  "key": 370149877875067536,
+  "keyHex": "0523095A5065CA90",
+  "index": 5260,
+  "selector": 2,
+  "kind": "METHOD",
+  "declaring": "YJ",
+  "member": "Y",
+  "descriptor": "(javax.swing.text.JTextComponentboolean)boolean",
+  "signature": "YJ.Y(javax.swing.text.JTextComponent, boolean) -> boolean",
+  "mode": "full"
+ },
+ "390088110481030006": {
+  "key": 390088110481030006,
+  "keyHex": "0569DF11D8533B76",
+  "index": 5543,
+  "selector": 55,
+  "kind": "METHOD",
+  "declaring": "aW",
+  "member": "e",
+  "descriptor": "(java.lang.String)javax.swing.JButton",
+  "signature": "aW.e(java.lang.String) -> javax.swing.JButton",
+  "mode": "full"
+ },
+ "409729356224766465": {
+  "key": 409729356224766465,
+  "keyHex": "05AFA6ADBBD3A201",
+  "index": 5822,
+  "selector": 41,
+  "kind": "METHOD",
+  "declaring": "aW",
+  "member": "X",
+  "descriptor": "()void",
+  "signature": "aW.X() -> void",
+  "mode": "full"
+ },
+ "492016222988846142": {
+  "key": 492016222988846142,
+  "keyHex": "06D3FE25E2FAC43E",
+  "index": 6991,
+  "selector": 63,
+  "kind": "METHOD",
+  "declaring": "Lk",
+  "member": "E",
+  "descriptor": "(java.lang.String)java.lang.String",
+  "signature": "Lk.E(java.lang.String) -> java.lang.String",
+  "mode": "full"
+ },
+ "517287540690064504": {
+  "key": 517287540690064504,
+  "keyHex": "072DC6470D911478",
+  "index": 7351,
+  "selector": 49,
+  "kind": "METHOD",
+  "declaring": "Lk",
+  "member": "B",
+  "descriptor": "(java.lang.String)java.lang.String",
+  "signature": "Lk.B(java.lang.String) -> java.lang.String",
+  "mode": "full"
+ },
+ "560784054776466487": {
+  "key": 560784054776466487,
+  "keyHex": "07C84E206CA78C37",
+  "index": 7969,
+  "selector": 19,
+  "kind": "METHOD",
+  "declaring": "Lk",
+  "member": "W",
+  "descriptor": "(javax.swing.JComponent)void",
+  "signature": "Lk.W(javax.swing.JComponent) -> void",
+  "mode": "full"
+ },
+ "592404269438552519": {
+  "key": 592404269438552519,
+  "keyHex": "0838A48B5B4F49C7",
+  "index": 8418,
+  "selector": 41,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "G",
+  "descriptor": "java.lang.String",
+  "signature": "aW.G : java.lang.String",
+  "mode": "full"
+ },
+ "602443583399287704": {
+  "key": 602443583399287704,
+  "keyHex": "085C4F3F49BA5B98",
+  "index": 8561,
+  "selector": 19,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "p",
+  "descriptor": "DU",
+  "signature": "aW.p : DU",
+  "mode": "full"
+ },
+ "614660311662874560": {
+  "key": 614660311662874560,
+  "keyHex": "0887B64BFE324FC0",
+  "index": 8734,
+  "selector": 45,
+  "kind": "FIELD",
+  "declaring": "aW",
+  "member": "d",
+  "descriptor": "javax.swing.JTextField",
+  "signature": "aW.d : javax.swing.JTextField",
+  "mode": "full"
+ },
+ "578864097947885485": {
+  "key": 578864097947885485,
+  "error": "full mode timed out",
+  "keyHex": "080889D483691FAD",
+  "index": 8226,
+  "selector": 34,
+  "raw": "c5a48mv4ly\bS\b2l2w2c7dqn\b",
+  "declaring": "yT",
+  "member": "S",
+  "wantTypes": [
+   "java/lang/Void"
+  ],
+  "candidates": [
+   "FIELD|ArrayList",
+   "METHOD|0|()void"
+  ],
+  "kind": "FIELD",
+  "signature": "yT.S : java.util.ArrayList",
+  "mode": "safe(no-init)"
+ }
+}
