@@ -1,4 +1,7 @@
-# FinalShell 4.6.5 逆向分析
+﻿# FinalShell 4.6.5 逆向分析
+
+> **直接下载 GUI 版激活助手**：[FinalShell-Activator.exe v1.0.0](https://github.com/chenyuxuan-official/finalshell-re/releases/download/v1.0.0/FinalShell-Activator.exe)
+> —— 单文件 11 MB，内置 Python 运行时，双击即用（写 hosts 需管理员）。全部 Release：[Releases](https://github.com/chenyuxuan-official/finalshell-re/releases)
 
 > **English abstract** — A reproducible **static + dynamic** reverse-engineering study of FinalShell 4.6.5
 > (`finalshell.jar`, 49,174,505 B, SHA-256 `2FE4A313…A3228C67`), producing reusable tools and evidence documents.
