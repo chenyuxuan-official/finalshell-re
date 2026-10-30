@@ -1,7 +1,7 @@
-﻿# FinalShell 4.6.5 逆向分析
+# FinalShell 4.6.5 逆向分析
 
-> **直接下载 GUI 版激活助手**：[FinalShell-Activator.exe v1.0.0](https://github.com/chenyuxuan-official/finalshell-re/releases/download/v1.0.0/FinalShell-Activator.exe)
-> —— 单文件 11 MB，内置 Python 运行时，双击即用（写 hosts 需管理员）。全部 Release：[Releases](https://github.com/chenyuxuan-official/finalshell-re/releases)
+> **GUI 版激活助手（已发布链接）**：[FinalShell-Activator.exe v1.0.0](https://github.com/chenyuxuan-official/finalshell-re/releases/download/v1.0.0/FinalShell-Activator.exe)
+> —— 发布包大小和运行状态本次未核验；源码见 `tools/gui.py`。全部 Release：[Releases](https://github.com/chenyuxuan-official/finalshell-re/releases)
 
 > **English abstract** — A reproducible **static + dynamic** reverse-engineering study of FinalShell 4.6.5
 > (`finalshell.jar`, 49,174,505 B, SHA-256 `2FE4A313…A3228C67`), producing reusable tools and evidence documents.
@@ -9,8 +9,8 @@
 > a one-word error that explains why every circulating `md5(machineCode + salt)` formula fails;
 > **(2)** the jar is **double-obfuscated by Zelix KlassMaster** — 1,393 per-class private `(II)String` string
 > decryptors plus a `com/c` reflection shim that hides every field and method access, which is why static
-> cross-references go dark; **(3)** the `huw` field in `config.json` is a **per-launch random token with no
-> membership semantics**, so editing the config file changes nothing. Ships zero-dependency Python tools
+> cross-references go dark; **(3)** the `huw` field in `config.json` **changed in three observed launches**; its generation and
+> relationship to membership have not been established. Ships zero-dependency Python tools
 > (keygen, string decryptor, class-bytecode patcher) and the disassembly evidence behind each claim.
 > **For security research and study of self-owned software only.**
 
@@ -21,7 +21,7 @@
 对 **FinalShell 4.6.5** 做静态（javap / 字节码 / PE 反汇编）+ 动态（agent 反射、JDWP、断点）双向分析，
 把结论沉淀成**可复用的工具**与**可复现的文档**。
 
-不做「一键破解分发」，不提供软件本体。仓库里只有：结论、证据、能独立跑起来的脚本。
+仓库未跟踪目标软件本体或已打包 exe；仓库内容主要是结论、证据与工具源码。
 
 分析过程中反复踩到的坑（字符串全加密、类名打乱、反射化调用、同名大小写类）都已写成文档，
 后续再碰同类 ZKM 样本时可以照着流程走。
@@ -77,18 +77,13 @@
 
 📄 架构总览与判别方法：**[docs/01-obfuscation.md](docs/01-obfuscation.md)**
 
-### ③ 会员状态不落盘，`huw` 与授权无关
+### ③ `huw` 三次启动值不同，授权语义未定位
 
-`config.json` 的 `huw`：base64 96 字符 → **72 字节**原始数据，每次启动重新生成（三次启动三个值），
-前 8 字节是可打印魔数（`TA_[/o<i`、`DU8hWCUF`、`ZGQ3MGw+`），熵 5.66–6.00 —— 典型的一次性混淆令牌。
+`config.json` 的 `huw`：观察到的 base64 值为 96 字符，解码后 **72 字节**；三次启动得到不同值。
+这说明它不是稳定的明文标识，但随机 IV 加密固定内容等解释尚未排除；生成函数、消费方及其与授权的关系尚未定位。
+观察到配置文件重写与 `backup/app_config/` 快照，不能单凭这些现象断定授权状态的存储方式或服务端复核路径。
 
-- 不是硬件指纹（每次都变）；
-- 不是会员位（全库明文常量检索 `激活/试用/到期/vip/member/价格` → **0 命中**）；
-- 改它没有意义：启动流程会把 `config.json` 整体重写，并在 `backup/app_config/<毫秒>.json` 留快照。
-
-真正的门在**服务端响应 + 云同步口令校验**，不在本地这份 JSON 里。
-
-📄 三次启动对比实验与结构分析：**[huw_analysis.md](docs/05-config-huw.md)**
+📄 三次启动对比实验与结构分析：**[docs/05-config-huw.md](docs/05-config-huw.md)**
 
 ---
 
@@ -97,37 +92,20 @@
 ```
 逆向finalshell/
 ├── README.md                    ← 本文件
-├── docs/                        结论文档（按主题编号）
-│   ├── 01-obfuscation.md            ZKM 双重混淆架构总览 / 判别方法
-│   └── activation-algorithm.md      算号算法 + 反汇编证据链（核心结论）
-├── tools/                       可复用工具（全部零依赖）
-│   ├── keccak.py                    纯 Python Keccak-224/256/384/512（带自检向量）
-│   ├── finalshell_keygen.py         算号器：4 个盐分支 + 版本号自动选支
-│   ├── fk_string_decrypt.py         ZKM 私有解密器 b(int,int) 的纯 Python 复现（离线）
-│   └── DumpStringTable.java         反射导出目标类的密文表/常量表为 JSON（一次性，需 JDK）
-├── data/                        工具依赖的数据
-│   └── lk_string_table.json         Lk 的 f[] 密文表（124 槽，17,196 B）
-├── analysis/                    第三方算号器 finashellpp.exe 的 PE 分析产物
-│   ├── pe_analyze.py                 PE 头/节表/导入导出解析
-│   ├── *.disasm.txt                 反汇编（.text 全量 + 关键函数）
-│   ├── strings_ascii.txt            字符串提取
-│   └── xrefs.txt / iat_refs.py      导入表交叉引用
-├── archive/                     归档（当前为空，留作历史版本/样本）
-│
-├── jar_patcher.py               ★ 纯 Python class 字节码修补器（零依赖，不要 ASM）
-├── selftest.py                  jar_patcher 的自测脚本
-├── key_table.json              Zelix token → 真实成员 的解析表（21 条，动态解析所得）
-├── Lk_decrypt_analysis.md      Lk 类 162 个成员的逐个判定 + 主解密器完整算法
-├── DU_lr_analysis.md           DU（纯 UI）/ lr（md5+DES）定位报告
-├── huw_analysis.md             config.json → huw 三次启动对比实验
-├── REPORT-jar-patcher.md       补丁工具自测报告（JVM `-Xverify:all` 级验证）
-└── monitor_commands.sh         Linux 侧无代理监控命令集（观察运行时行为用）
+├── docs/                        INDEX.md、01–06 专题及补充文档
+├── tools/                       Python/Java 工具、GUI 与 build_exe.ps1
+│   ├── activate.py                  命令行入口
+│   ├── gui.py / build_exe.ps1        GUI 源码 / Windows 打包脚本
+│   ├── finalshell_keygen.py / keccak.py
+│   ├── fk_string_decrypt.py / DumpStringTable.java
+│   └── jar_patcher.py / selftest.py
+├── data/                        key_table.json、lk_string_table.json
+├── analysis/                    PE 分析脚本与报告（转储文件不入库）
+├── .gitignore
+└── LICENSE
 ```
 
-> 根目录还留有若干分析期的临时脚本（`an*.py`、`scan_*.py`、`resolve_key.py`、`Probe*.java` 等），
-> 它们是定位过程中的探针，保留作可复现线索，后续会逐步归入 `tools/`、`docs/`。
-> `finalshell.orig.jar`、`*.hprof`、`decrypted_all*.txt`、`callsites*.tsv`、解包目录等大件全部
-> 由 `.gitignore` 排除，见第 8 节。
+这是**跟踪文件的概要**，完整列表以 `git ls-files` 为准。`finalshell.orig.jar` 与生成的转储可存在于本地，但受 `.gitignore` 排除；见第 8 节。
 
 ---
 
@@ -250,8 +228,8 @@ java -cp "out;finalshell.orig.jar" DumpStringTable finalshell.orig.jar Lk f
 | `com/c` 反射垫片（token 解析） | ✅ 动态解析出 21 条 | [`data/key_table.json`](data/key_table.json) |
 | `huw` 每次启动值不同 | ✅ 三次启动实测 | [`docs/05-config-huw.md`](docs/05-config-huw.md) §3 |
 | jar 字节码补丁工具 | ✅ 449 用例扫描 + `-Xverify:all` | [`docs/06-jar-patching.md`](docs/06-jar-patching.md) |
-| **4.6.5 接受的盐分支** | ✅ **已闭环：分支 3（MODERN-C）** | 算号器实测对拍 → [§7](docs/activation-algorithm.md) |
-| **激活不持久的根因** | ✅ **已定位：`yunce.hostbuf.com` 未被屏蔽** | [`docs/persistence-findings.md`](docs/persistence-findings.md) |
+| **算号器输入版本 4.6.5 时的盐分支** | ✅ 分支 3（MODERN-C）已对拍；客户端端到端接受情况未独立确认 | [算法说明 §7](docs/activation-algorithm.md#7-实测确认已闭环) |
+| **激活不持久的根因** | ⚠️ `yunce.hostbuf.com` 未列入原 10 条域名；是否导致状态回退仍待 A/B 验证 | [`docs/persistence-findings.md`](docs/persistence-findings.md) §4 |
 | `huw` 是否含授权信息 | ⚠️ 存疑（「每次变」不足以证伪） | 同上 §5 |
 
 ---
@@ -260,9 +238,7 @@ java -cp "out;finalshell.orig.jar" DumpStringTable finalshell.orig.jar Lk f
 
 诚实列清楚，别把「没验完」写成「已确认」：
 
-1. **4.6.5 到底接受哪个盐分支，没有闭环验证。** 版本号映射规则说 4.6.x → 分支 3（`Scfg*ZkvJZc,s,Y`），
-   但社区长期流传、且实测可激活 4.x 的是分支 1（`FF3Go(*Xvbb5s2`）。两种说法都缺一次干净环境下的
-   端到端提交验证 —— 建议用 `--all` 逐支粘贴，配合下面的观察点记录结果。
+1. **4.6.5 的算号器分支与客户端实际接受结果是两种验证范围。** [算号器对拍](docs/activation-algorithm.md#7-实测确认已闭环)记录版本 `4.6.5` 映射分支 3，并给出经脱敏重算的示例；该记录并非客户端干净环境端到端提交验证。
 2. **会员/授权状态的持久化机制未定位。** 已知：激活后安装目录**不产生**授权文件，`config.json`
    不新增字段，备份快照也无变化 ⇒ 疑似只存在于进程内存（重启可能需重新激活），或干脆在服务端。
    Java 层全库明文常量检索不到 `会员/到期/vip` 类分支，因此**不排除**本地根本没有会员判定。

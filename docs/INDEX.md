@@ -1,7 +1,7 @@
 ﻿# docs/ 目录索引
 
 > FinalShell 4.6.5 逆向笔记的入口。**按"新手 → 进阶 → 动手"三档读**，不要从难到易硬啃。
-> 所有章节均已完成；第 01 章末尾列出仍待补齐的开放问题。
+> 各专题记录了已有分析；开放问题与不同验证范围请结合 [README 已知限制](../README.md#7-已知限制与未解决项) 阅读。
 
 ## 一、全部文档
 
@@ -47,10 +47,8 @@
 | `tools/keccak.py` | 原版 Keccak-384 实现（**非** `hashlib.sha3`，域分隔符不同）。 |
 | `tools/DumpStringTable.java` | 运行时导出字符串表用的 agent 侧工具。 |
 | `data/lk_string_table.json` | 已还原的 `Lk` 字符串表（小体积数据，随仓库入库）。 |
-| `data/yt_string_table.json` | `yT` 族字符串表（生成中，可能为空文件）。 |
+| `data/key_table.json` | 已解析的 Zelix token → 成员映射（当前跟踪的数据文件）。 |
 
-## 四、根目录原始报告（与 docs/02–06 同源）
+## 四、历史报告路径说明
 
-`Lk_decrypt_analysis.md`、`key_resolve_report.md`、`DU_lr_analysis.md`、`huw_analysis.md`、
-`REPORT-jar-patcher.md` 是**原始报告**，已原样复制为 `docs/02`–`docs/06`（仅在顶部加了来源说明），
-原文件保留在仓库根目录，以防其它流程按旧路径引用。**修改内容请只改 docs/ 下的副本**，避免两份漂移。
+`docs/02`–`docs/06` 中部分章节标注了分析时的原始报告名称；这些根目录原始报告当前不在跟踪文件清单中。阅读和链接请以 `docs/` 中实际存在的文件为准。另有 [persistence-findings.md](persistence-findings.md) 记录运行时观察与仍待验证的假设。
